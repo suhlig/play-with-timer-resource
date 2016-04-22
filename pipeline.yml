@@ -1,0 +1,24 @@
+resources:
+
+- name: git-play-with-timer-resource
+  type: git
+  source:
+    uri: git@github.com:suhlig/play-with-timer-resource.git
+    uri: https://github.com/suhlig/play-with-timer-resource.git
+    branch: master
+
+- name: nightly-timer
+  type: time
+  source:
+    interval: 24h
+
+jobs:
+- name: run-tests
+  plan:
+  - get: git-play-with-timer-resource
+    trigger: false
+  - task: run-tests
+    config:
+      run:
+        path: 'echo'
+        args: ['OK!']
