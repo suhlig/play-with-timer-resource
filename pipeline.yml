@@ -7,14 +7,17 @@ resources:
     uri: https://github.com/suhlig/play-with-timer-resource.git
     branch: master
 
-- name: nightly-timer
+- name: timer
   type: time
   source:
-    interval: 24h
+    start: 12:00 AM -0700
+    stop: 1:00 AM -0700
 
 jobs:
 - name: run-tests
   plan:
+  - get: timer
+    trigger: true
   - get: git-play-with-timer-resource
     trigger: false
   - task: run-tests
