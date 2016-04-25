@@ -7,16 +7,24 @@ resources:
     uri: https://github.com/suhlig/play-with-timer-resource.git
     branch: master
 
-- name: timer
+- name: time-monday
   type: time
   source:
-    start: 12:00 AM -0700
-    stop: 1:00 AM -0700
+    start: 12:01 AM -0000
+    stop:  11:59 PM -0000
+    days:  [ Monday ]
+
+- name: time-tuesday
+  type: time
+  source:
+    start: 12:01 AM -0000
+    stop:  11:59 PM -0000
+    days:  [ Tuesday ]
 
 jobs:
-- name: run-tests
+- name: run-tests-on-monday
   plan:
-  - get: timer
+  - get: time-monday
     trigger: true
   - get: git-play-with-timer-resource
     trigger: false
@@ -24,4 +32,16 @@ jobs:
     config:
       run:
         path: 'echo'
-        args: ['OK!']
+        args: ['Monday morning feels so bad, everybody seems to nag me']
+
+- name: run-tests-on-tuesday
+  plan:
+  - get: time-tuesday
+    trigger: true
+  - get: git-play-with-timer-resource
+    trigger: false
+  - task: run-tests
+    config:
+      run:
+        path: 'echo'
+        args: ['Come on Tuesday I feel better, even my old man looks good']
